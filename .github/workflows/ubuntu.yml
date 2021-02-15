@@ -16,4 +16,4 @@ jobs:
     - uses: actions/checkout@v2
     - run: source ubuntu-run.sh
     - name: Setup tmate session
-      uses: mxschmitt/action-tmate@master
+      uses: mxschmitt/action-tmate@master  
