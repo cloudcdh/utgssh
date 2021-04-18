@@ -46,7 +46,7 @@ jobs:
         run: curl -sL https://github.com/rokibhasansagar/slimhub_actions/raw/main/cleanup.sh | bash
       - name: Empty
         continue-on-error: true
-        timeout-minutes: 340
+        timeout-minutes: 320
         run: |
           while true; do
             printf "." && sleep 2m
