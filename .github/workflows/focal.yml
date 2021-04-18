@@ -1,0 +1,57 @@
+name: Focal Slim SSH CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh2runner:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Set Git Configs & Secrets
+        run: |
+          git config --global user.email ${{ secrets.GitHubMail }}
+          git config --global user.name ${{ secrets.GitHubName }}
+          git config --global color.ui true
+          git config --global credential.helper store
+          echo "https://${{ secrets.GitHubName }}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+      - name: SSH Keepalive
+        run: |
+          mkdir -p ~/.ssh
+          cat << EOF > ~/.ssh/config
+          Host *
+              ServerAliveInterval 60
+              StrictHostKeyChecking no
+          Host github.com
+              User git
+              Port 22
+              Hostname github.com
+              TCPKeepAlive yes
+              IdentitiesOnly yes
+          EOF
+      - name: NGROK Session
+        continue-on-error: true
+        run: curl -sL https://gist.github.com/rokibhasansagar/077b66b16cd50e50e5ad9489084dc926/raw/ngrok2actions.sh | bash
+        env:
+          NGROK_TOKEN: ${{ secrets.NGROK4_TOKEN }}
+          NGROK_REGION: us
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.NGBOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.NGBOT_CHAT }}
+          REPO_PURPOSE: "Focal SSH Runner"
+      - name: Slim Environment
+        continue-on-error: true
+        run: curl -sL https://github.com/rokibhasansagar/slimhub_actions/raw/main/cleanup.sh | bash
+      - name: Empty
+        continue-on-error: true
+        timeout-minutes: 340
+        run: |
+          while true; do
+            printf "." && sleep 2m
+          done
+      - name: Self Looping
+        continue-on-error: true
+        run: |
+          curl -X POST --header "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/focal.yml/dispatches -d '{"ref":"main"}'
