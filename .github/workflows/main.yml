@@ -1,4 +1,4 @@
-name: Ubuntu-Server
+name: Bionic SSH CI
 on: 
   workflow_dispatch:
 defaults:
@@ -17,7 +17,7 @@ jobs:
     env:
      # After sign up on the https://ngrok.com
      # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
-      NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+      NGROK_TOKEN: ${{ secrets.NGROK3_TOKEN }}
     
     # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
     # You can find this server region here: https://ngrok.com/docs#global-locations
@@ -28,5 +28,5 @@ jobs:
 
     # Send connection info to Telegram (optional)
     # You can find related documents here: https://core.telegram.org/bots
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.NGBOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.NGBOT_CHAT }}
