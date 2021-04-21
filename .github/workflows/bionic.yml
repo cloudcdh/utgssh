@@ -42,12 +42,8 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.NGBOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.NGBOT_CHAT }}
           REPO_PURPOSE: "Bionic SSH Runner"
-      - name: Slim Environment
-        continue-on-error: true
-        run: curl -sL https://github.com/rokibhasansagar/slimhub_actions/raw/main/cleanup.sh | bash
-      - name: Empty
-        continue-on-error: true
-        timeout-minutes: 5
+          continue-on-error: true
+          timeout-minutes: 5
        
       - name: Self Looping
         continue-on-error: true
