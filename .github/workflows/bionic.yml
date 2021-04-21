@@ -44,11 +44,13 @@ jobs:
       
       - name: Empty
         continue-on-error: true
-        timeout-minutes: 3
+        timeout-minutes: 1
         run: |
+          set -xv
           while true; do
             printf "." && sleep 2m
           done
+          set -xv
       - name: Self Looping
         continue-on-error: true
         run: |
