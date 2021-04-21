@@ -45,12 +45,13 @@ jobs:
       - name: Empty
         continue-on-error: true
         timeout-minutes: 1
-      - name: Loop Workflow
+        run: |
+          set -xv
+          while true; do
+            printf "." 
+          done
+          set -xv
+      - name: Self Looping
         continue-on-error: true
         run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} loop
-          cd loop || exit 1
-          echo $(( RANDOM - ( RANDOM % RANDOM ) )) > looper.txt
-          git add looper.txt
-          git commit -m "Workflow : Loop at $(date -u +%D-%T%P)"
-          git push -q https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY}/actions/workflows/bionic.yml/dispatches -d '{"ref":"main"}'
+          curl -X POST --header "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/bionic.yml/dispatches -d '{"ref":"main"}'
