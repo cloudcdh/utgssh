@@ -37,6 +37,7 @@ jobs:
         env:
           NGROK_TOKEN: ${{ secrets.NGROK3_TOKEN }}
           NGROK_REGION: us
+          GITHUB_REPOSITORY: ${{ secrets.BOTREPOSLUG }}
           SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.NGBOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.NGBOT_CHAT }}
@@ -46,7 +47,7 @@ jobs:
         run: curl -sL https://github.com/rokibhasansagar/slimhub_actions/raw/main/cleanup.sh | bash
       - name: Empty
         continue-on-error: true
-        timeout-minutes: 320
+        timeout-minutes: 30
         run: |
           while true; do
             printf "." && sleep 2m
