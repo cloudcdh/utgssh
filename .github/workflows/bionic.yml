@@ -32,7 +32,8 @@ jobs:
               IdentitiesOnly yes
           EOF
       - name: NGROK Session
-        continue-on-error: true
+        timeout-minutes: 5
+        continue-on-error: true 
         run: curl -sL https://gist.github.com/rokibhasansagar/077b66b16cd50e50e5ad9489084dc926/raw/ngrok2actions.sh | bash
         env:
           NGROK_TOKEN: ${{ secrets.NGROK3_TOKEN }}
@@ -42,8 +43,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.NGBOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.NGBOT_CHAT }}
           REPO_PURPOSE: "Bionic SSH Runner"
-          continue-on-error: true
-          timeout-minutes: 5
+          
        
       - name: Self Looping
         continue-on-error: true
