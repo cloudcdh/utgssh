@@ -1,0 +1,24 @@
+name: gclone sync
+
+on:
+  schedule:
+    - cron: 0 23 * * *
+  workflow_dispatch:
+    inputs:
+    
+jobs:
+  sync1:
+    runs-on: ubuntu-latest
+    name: Backup1 Sync
+    continue-on-error: true
+    timeout-minutes: 200
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: gclone Install
+        run: |
+          wget -qO- https://api.github.com/repos/donwa/gclone/releases/latest \
+          | grep browser_download_url | grep Linux_x86_64 | cut -d '"' -f 4 \
+          | wget --no-verbose -i- -O- | gzip -d -c > rclone
+          sudo mv rclone /usr/bin
+          sudo chmod +x /usr/bin/rclone
